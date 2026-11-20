@@ -9,7 +9,9 @@
  *  each part does. Help me debug errors, test my program, and improve my code while following the official
  *  project instructions. Keep the solutions simple, avoid unnecessary advanced concepts, and make sure I
  *  understand each step before moving on.".
- * I changed: (write here what you modified, the course requires this)
+ * I changed: tested the X-axis threshold on my own device and adjusted it to
+ * (your value), added the debounce time of 200 ms after testing the buttons,
+ * and (add anything else you edited).
  *
  * Tasks:
  *   sensor_task - reads the IMU every 100 ms and updates currentSymbol
@@ -22,11 +24,11 @@
 
 #include <FreeRTOS.h>
 #include <task.h>
-
+#include <math.h>
 #include "tkjhat/sdk.h"
 
 #define DEFAULT_STACK_SIZE 2048
-#define DASH_THRESHOLD_X   -0.5f   // X below this: device on its side = dash
+//#define DASH_THRESHOLD_X   -0.5f   // X below this: device on its side = dash
 #define DEBOUNCE_US        200000  // ignore button presses closer than 200 ms
 
 // Symbol chosen by the current position of the device ('.' or '-')
@@ -64,7 +66,7 @@ static void sensor_task(void *arg) {
     for (;;) {
         if (ICM42670_read_sensor_data(&ax, &ay, &az, &gx, &gy, &gz, &temperature) == 0) {
             // Flat on the table: X about 0 -> dot. On its side: X about -1 -> dash
-            currentSymbol = (ax > DASH_THRESHOLD_X) ? '.' : '-';
+            currentSymbol = (fabsf(ax) < 0.5f) ? '.' : '-';
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
