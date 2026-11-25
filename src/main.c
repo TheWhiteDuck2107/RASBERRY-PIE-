@@ -9,10 +9,6 @@
  *  each part does. Help me debug errors, test my program, and improve my code while following the official
  *  project instructions. Keep the solutions simple, avoid unnecessary advanced concepts, and make sure I
  *  understand each step before moving on.".
- * I changed: tested the X-axis threshold on my own device and adjusted it to
- * (your value), added the debounce time of 200 ms after testing the buttons,
- * and (add anything else you edited).
- *
  * Tasks:
  *   sensor_task - reads the IMU every 100 ms and updates currentSymbol
  *   print_task  - sends symbols and spaces to the workstation
